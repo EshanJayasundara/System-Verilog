@@ -16,7 +16,7 @@ module uart_tx #(
 
     genvar n;
     for (n=0; n<NUM_WORDS; n++)
-        assign s_packets = {~(END_BITS'(0)), s_data[n], 1'b0}; // what is the meaning of ~ / is it negation
+        assign s_packets[n] = {~(END_BITS'(0)), s_data[n], 1'b0}; // what is the meaning of ~ / is it negation
 
     assign tx = m_packets[0];
 
