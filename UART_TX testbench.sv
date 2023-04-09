@@ -7,9 +7,9 @@ module uart_tx_tb;
                 W_OUT            = 16,
                 CLOCK_PERIOD     = 10;
 
-    localparam NUM_WORDS = W_OUT/BITS_PER_WORD;
+    localparam  NUM_WORDS = W_OUT/BITS_PER_WORD;
 
-    logic clk = 0, rstn = 0, s_valid, s_ready, tx;
+    logic clk = 0, rstn = 0, s_valid = 0, s_ready, tx;
     logic [NUM_WORDS-1:0][BITS_PER_WORD-1:0] s_data;
     
     uart_tx #(
@@ -30,7 +30,12 @@ module uart_tx_tb;
         wait(s_ready);
         #5 s_data  <= 'd127; @(posedge clk); #1 s_valid <= 1;
         @(posedge clk); #1 s_valid <= 0;
+        #(CLOCK_PERIOD*100)
+        #5 s_data  <= 'd63;  @(posedge clk); #1 s_valid <= 1;
+        @(posedge clk) #1 s_valid <= 0;
         wait(s_ready);
+        #5
+
         $finish();
     end 
 endmodule
